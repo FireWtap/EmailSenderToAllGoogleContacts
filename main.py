@@ -38,12 +38,15 @@ connections = people_service.people().connections().list(resourceName="people/me
 
 for x in connections.execute()["connections"]:
     print("invio email a :{}".format(x["emailAddresses"][0]["value"]))
-    emailvalue = x["emailAddresses"][0]["value"]
-    msg = MIMEMultipart()
-    messaggio = "Email sent using Python to: {}".format(emailvalue)
-    msg['From'] = my_email
-    msg['To'] = emailvalue
-    msg['Subject'] = "Email test python"
-    msg.attach(MIMEText(messaggio, 'plain'))
-    server.sendmail(msg['From'], msg['To'], msg.as_string())                                                            #Email sending...
+    try:
+        emailvalue = x["emailAddresses"][0]["value"]
+        msg = MIMEMultipart()
+        messaggio = "Email sent using Python to: {}".format(emailvalue)
+        msg['From'] = my_email
+        msg['To'] = emailvalue
+        msg['Subject'] = "Email test python"
+        msg.attach(MIMEText(messaggio, 'plain'))
+        server.sendmail(msg['From'], msg['To'], msg.as_string())                                                            #Email sending...
+    except:
+        pass
 server.quit()                                                                                                           #Exit from Google SMTP Server
